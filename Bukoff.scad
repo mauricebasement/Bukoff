@@ -2,7 +2,10 @@
 
 //Variable
 module z_motor_hold() {
-
+	difference() {
+		square([55,100],center=true);
+		profile();
+	}
 }
 //Modules
 
@@ -17,3 +20,10 @@ module motor(face,cable,screw_e,screw_i,hole,screw_d,screws,rod,rod_hole) {
 	if (screws==true) for(x=[1:4])rotate(a=[0,0,x*90])translate([screw_d,screw_d])circle(r=1.5);
 }
 
+module profile() {
+	import("profile.dxf");
+	circle(r=2.2);
+}
+
+
+z_motor_hold();
