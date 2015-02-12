@@ -18,7 +18,17 @@ module y_connector(l=140) {
 		for(j=[-1,1])for(i=[-1,1])translate([i*40,j*40])circle(r=2.5);
 	}
 }
+module y_rod_hold() {
+	difference() {
+		union() {
+			translate([0,-10])square([100,20],center=true);
+			for(i=[-1,1])translate([i*40,0])circle(r=10);
+		}
+		for(i=[-1,1])translate([i*40,-10])circle(r=2.5);
+		for(i=[-1,1])translate([i*40,8])circle(r=4);
+	}
 
+}
 //Modules
 
 //Helper Modules
@@ -41,3 +51,4 @@ module profile() {
 z_motor_hold();
 y_connector();
 y_connector(l=100); //necessary?
+y_rod_hold();
