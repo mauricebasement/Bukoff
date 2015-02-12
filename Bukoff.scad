@@ -8,6 +8,17 @@ module z_motor_hold() {
 		translate([0,11.5])motor(screw_i=true,face=true);
 	}
 }
+module y_connector(l=140) {
+	difference() {
+		union() {
+			square([l,20],center=true);
+			for(i=[-1,1])translate([i*40,0])square([20,100],center=true);
+		}
+		for(i=[-1,1])translate([i*60,0])circle(r=2.5);
+		for(j=[-1,1])for(i=[-1,1])translate([i*40,j*40])circle(r=2.5);
+	}
+}
+
 //Modules
 
 //Helper Modules
@@ -28,3 +39,5 @@ module profile() {
 
 
 z_motor_hold();
+y_connector();
+y_connector(l=100); //necessary?
