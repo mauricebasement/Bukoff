@@ -3,8 +3,9 @@
 //Variable
 module z_motor_hold() {
 	difference() {
-		square([55,100],center=true);
-		profile();
+		square([55,80],center=true);
+		translate([0,-20])profile();
+		translate([0,11.5])motor(screw_i=true,face=true);
 	}
 }
 //Modules
