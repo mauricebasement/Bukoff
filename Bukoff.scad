@@ -1,6 +1,7 @@
 //Bukoff
 
 //Variable
+//Modules
 module z_motor_hold() {
 	difference() {
 		square([55,80],center=true);
@@ -8,28 +9,12 @@ module z_motor_hold() {
 		translate([0,11.5])motor(screw_i=true,face=true);
 	}
 }
-module y_connector(l=140) {
-	difference() {
-		union() {
-			square([l,20],center=true);
-			for(i=[-1,1])translate([i*40,0])square([20,100],center=true);
-		}
-		for(i=[-1,1])translate([i*60,0])circle(r=2.5);
-		for(j=[-1,1])for(i=[-1,1])translate([i*40,j*40])circle(r=2.5);
-	}
-}
 module y_rod_hold() {
 	difference() {
-		union() {
-			translate([0,-10])square([100,20],center=true);
-			for(i=[-1,1])translate([i*40,0])circle(r=10);
-		}
-		for(i=[-1,1])translate([i*40,-10])circle(r=2.5);
-		for(i=[-1,1])translate([i*40,8])circle(r=4);
+		!y_rod_hold_hull();
+		y_rod_hold_cut();
 	}
-
 }
-//Modules
 
 //Helper Modules
 module motor(face,cable,screw_e,screw_i,hole,screw_d,screws,rod,rod_hole) {	
@@ -41,13 +26,28 @@ module motor(face,cable,screw_e,screw_i,hole,screw_d,screws,rod,rod_hole) {
 	if (rod==true) circle(r=4);
 	if (screws==true) for(x=[1:4])rotate(a=[0,0,x*90])translate([screw_d,screw_d])circle(r=1.5);
 }
-
 module profile() {
 	import("profile.dxf");
 	circle(r=2.2);
 }
+module linear_bearing() {
+	for(i=[0:3])rotate(a=[0,0,i*90])translate([x,y])circle(r=r);
+}
+module y_rod_hold_cut() {
+	for(i=[-1,1]) {
+		translate([i*10,-10])circle(r=2.5);
+		translate([i*50,8])circle(r=4);
+	}
+}
+module y_rod_hold_hull() {
+	for(i=[-1,1]) { hull() {
+		translate([i*50,8])circle(r=8);
+		translate([i*20,-11])circle(r=8);
+	} }
+}
 
 
+linear_bearing(x=20,y=10,r=2.5);
 z_motor_hold();
 y_connector();
 y_connector(l=100); //necessary?
