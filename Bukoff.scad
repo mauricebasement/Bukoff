@@ -47,6 +47,12 @@ module y_rod_hold() {
 		y_rod_hold_cut();
 	}
 }
+module y_rod_hold_cover() {
+	difference() {
+		circle(r=12);
+		x_holes(r=1.5,x=5);
+	}
+}
 
 //Helper Modules
 module slot_hole(r,d) {
@@ -67,19 +73,26 @@ module profile() {
 	import("profile.dxf");
 	circle(r=2.2);
 }
-module linear_bearing() {
+module xy_holes(x,y,r) {
 	for(i=[1,0])for(j=[0,1])mirror([0,j,0])mirror([i,0,0])translate([x,y])circle(r=r);
+}
+module x_holes(x,r) {
+	for(i=[0:3])rotate(a=[0,0,i*90])translate([x,x])circle(r=r);
 }
 module y_rod_hold_cut() {
 	for(i=[-1,1]) {
-		translate([i*10,-10])circle(r=2.5);
-		translate([i*50,8])circle(r=4);
+		translate([i*10,-10])	circle(r=2.5);
+		translate([i*50,8]) {
+			circle(r=4);
+			x_holes(r=1.5,x=6);
+		}
 	}
 }
 module y_rod_hold_hull() {
 	hull()for(i=[-1,1]) {
-		translate([i*50,8])circle(r=8);
-		translate([i*20,-11])circle(r=8);
+		translate([i*50,8])circle(r=12);
+		translate([i*50,8])circle(r=12);
+		translate([i*20,-11])circle(r=9);
 	}
 }
 module squares(x,o) {
@@ -97,8 +110,8 @@ module t_slot() {
 }
 
 //Render
-!linear_bearing(x=20,y=10,r=2.5);
-z_motor_hold_top();
-z_motor_hold_back();
-z_motor_hold_side();
+z_motor_hold_top();  //2
+z_motor_hold_back(); //2
+z_motor_hold_side(); //4
 y_rod_hold(); //2
+y_rod_hold_cover(); //4
