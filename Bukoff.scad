@@ -26,11 +26,20 @@ module z_motor_hold_back() {
 		for(i=[-1,1]) {
 			translate([i*26,-25])squares(x=10,o=1);
 			translate([i*17.5,22.5])circle(r=1.5);
+			translate([0,i*15])circle(r=2.5);
 		}
 	}
 	for(i=[-1,1])for(j=[17.5,37.5])translate([i*26,j-25])square_hole();
 }
 module z_motor_hold_side() {
+	difference() {
+		translate([5,0])square([40,69]);
+		for(i=[20,50])translate([5,i-2.5])rotate(a=[0,0,-90])t_slot();	
+		for(i=[15,35])translate([i-2.5,0])rotate(a=[0,0,00])t_slot();	
+	}
+	for(j=[-1,1])for(i=[10,30,40,60])translate([0,i-5])square(5);
+	for(j=[-1,1])for(i=[25,45])translate([i-5,-5])square(5);
+
 }
 module y_rod_hold() {
 	difference() {
@@ -90,6 +99,6 @@ module t_slot() {
 //Render
 linear_bearing(x=20,y=10,r=2.5);
 z_motor_hold_top();
-!z_motor_hold_back();
-z_motor_hold_side();
+z_motor_hold_back();
+!z_motor_hold_side();
 y_rod_hold(); //2
