@@ -59,7 +59,7 @@ module motor(face,cable,screw_e,screw_i,hole,screw_d,screws,rod,rod_hole,a) {
 	if (cable==true) translate([21+5,0])square(10,center=true);
 	if (screw_e==true) for(x=[1:4])rotate(a=[0,0,x*90])translate([26,26])circle(r=1.5);
 	if (screw_i==true) for(x=[15.5,-15.5])for(y=[-15.5,15.5])translate([x,y])slot_hole(r=1.5,d=a);
-	if (hole==true) circle(r=12);
+	if (hole==true) circle(r=14);
 	if (rod==true) circle(r=4);
 	if (screws==true) for(x=[1:4])rotate(a=[0,0,x*90])translate([screw_d,screw_d])circle(r=1.5);
 }
@@ -68,7 +68,7 @@ module profile() {
 	circle(r=2.2);
 }
 module linear_bearing() {
-	for(i=[0:3])rotate(a=[0,0,i*90])translate([x,y])circle(r=r);
+	for(i=[1,0])for(j=[0,1])mirror([0,j,0])mirror([i,0,0])translate([x,y])circle(r=r);
 }
 module y_rod_hold_cut() {
 	for(i=[-1,1]) {
@@ -97,8 +97,8 @@ module t_slot() {
 }
 
 //Render
-linear_bearing(x=20,y=10,r=2.5);
+!linear_bearing(x=20,y=10,r=2.5);
 z_motor_hold_top();
 z_motor_hold_back();
-!z_motor_hold_side();
+z_motor_hold_side();
 y_rod_hold(); //2
