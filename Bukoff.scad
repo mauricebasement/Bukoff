@@ -5,12 +5,20 @@ $fn=50;
 zMotorHoldX = 62;
 
 //Modules
-module platform() {
+module platform1() {
 	difference() {
 		square([230,205],center=true);
 		for(i=[1,-1])translate([-50,i*50])xy_holes(x=9,y=12,r=1.5);
 		translate([50,0])xy_holes(x=9,y=12,r=1.5);
 		for(i=[-1,1])for(j=[1,-1])translate([i*212.2/2,j*60])circle(r=2);
+	}
+}
+module platform2() {
+	difference() {
+		square([230,205],center=true);
+		for(i=[1,-1])translate([106,i*95])circle(r=1.5);
+		translate([-106,0])circle(r=1.5);
+		for(i=[-1,1])for(j=[1,-1])translate([i*212.2/2,j*60])circle(r=8.5);
 	}
 }
 module z_motor_hold_top() {
@@ -118,7 +126,8 @@ module t_slot() {
 }
 
 //Render
-!platform(); //1
+platform1(); //1
+!platform2(); //1
 z_motor_hold_top();  //2
 z_motor_hold_back(); //2
 z_motor_hold_side(); //4
