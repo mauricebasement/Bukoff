@@ -79,8 +79,15 @@ module y_axis_connector() {
 		for(i=[-1,1])translate([i*40,0])circle(r=2.5);
 	}
 }
-!y_axis_connector();
+module thread_hold() {
+	difference() {
+		square([80,20],center=true);
+		translate([-21,0])for(i=[0:3])rotate(a=[0,0,i*90])translate([9,9])rotate(a=[0,0,90])slot_hole(r=1.5,d=1.5);
+		
+	}
+}
 //Helper Modules
+
 module slot_hole(r,d) {
 	hull() {
 		for(i=[-1,1])translate([0,i*d])circle(r=r);
@@ -137,9 +144,11 @@ module t_slot() {
 
 //Render
 platform1(); //1
-!platform2(); //1
+platform2(); //1
 z_motor_hold_top();  //2
 z_motor_hold_back(); //2
 z_motor_hold_side(); //4
 y_rod_hold(); //2
 y_rod_hold_cover(); //4
+y_axis_connector(); //1
+!thread_hold(); //2
