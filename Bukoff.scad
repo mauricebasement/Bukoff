@@ -69,7 +69,17 @@ module y_rod_hold_cover() {
 		x_holes(r=1.5,x=5);
 	}
 }
-
+module y_axis_connector() {
+	difference() {
+		union() {
+			square([100,20],center=true);
+			square([40,60],center=true);
+		}
+		xy_holes(r=2.5,y=20,x=10);
+		for(i=[-1,1])translate([i*40,0])circle(r=2.5);
+	}
+}
+!y_axis_connector();
 //Helper Modules
 module slot_hole(r,d) {
 	hull() {
