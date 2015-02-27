@@ -8,15 +8,17 @@ zMotorHoldX = 62;
 module platform1() {
 	difference() {
 		square([230,140],center=true);
-		for(i=[1,-1])translate([-50,i*50])xy_holes(x=9,y=12,r=1.5);
-		translate([50,0])xy_holes(x=9,y=12,r=1.5);
+		for(i=[1,-1])translate([-70,i*50])xy_holes(x=9,y=12,r=1.5);
+		translate([70,0])xy_holes(x=9,y=12,r=1.5);
 		for(i=[-1,1])for(j=[1,-1])translate([i*212.2/2,j*60])circle(r=2);
+		x_holes(x=50,r=1.5);
 	}
 }
 module platform2() {
 	difference() {
 		square([200,200],center=true);
 		for(i=[-1,1])for(j=[1,-1])translate([i*212.2/2,j*60])circle(r=9);
+		x_holes(x=50,r=1.5);
 	}
 }
 module z_motor_hold_top() {
@@ -144,18 +146,18 @@ module x_holes(x,r) {
 }
 module y_rod_hold_cut() {
 	for(i=[-1,1]) {
-		translate([i*10,-10])	circle(r=2.5);
-		translate([i*50,8]) {
+		translate([i*10,0])	circle(r=2.5);
+		translate([i*70,8]) {
 			circle(r=4);
 			x_holes(r=1.5,x=6);
 		}
 	}
+	//translate([0,2.5])square([40,5],center=true); option
 }
 module y_rod_hold_hull() {
 	hull()for(i=[-1,1]) {
-		translate([i*50,8])circle(r=12);
-		translate([i*50,8])circle(r=12);
-		translate([i*20,-11])circle(r=9);
+		translate([i*70,8])circle(r=13);
+		translate([i*20,0])circle(r=10);
 	}
 }
 module squares(x,o) {
@@ -180,7 +182,7 @@ platform2(); //1
 z_motor_hold_top();  //2
 z_motor_hold_back(); //2
 z_motor_hold_side(); //4
-y_rod_hold(); //2
+!y_rod_hold(); //2
 y_rod_hold_cover(); //4
 angle();
 y_axis_connector(); //1
