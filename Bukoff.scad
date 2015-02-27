@@ -92,14 +92,32 @@ module y_axis_connector() {
 		for(i=[-1,1])translate([i*40,0])circle(r=2.5);
 	}
 }
-module thread_hold() {
+module profile_top() {
+	translate([-21,0])thread_hold();
+	translate([25,0])profile_connector();
+}
+module bearing_hold() {
 	difference() {
-		square([80,20],center=true);
-		translate([-21,0])for(i=[0:3])rotate(a=[0,0,i*90])translate([9,9])rotate(a=[0,0,90])slot_hole(r=1.5,d=1.5);
-		
+		square(32,center=true);
+		x_holes(x=10,r=1.5);
+		circle(r=8);
 	}
 }
+
 //Helper Modules
+module thread_hold() {
+	difference() {
+		square(32,center=true);
+		xy_slotholes(x=10,y=10,r=1.5,d=1.5,o=90);
+		circle(r=6);
+	}
+}
+module profile_connector() {
+	difference() {
+		square([60,20],center=true);
+		for(i=[-15,20])translate([i,0])circle(r=2.5);
+	}
+}
 module slot_hole(r,d) {
 	hull() {
 		for(i=[-1,1])translate([0,i*d])circle(r=r);
@@ -153,10 +171,12 @@ module t_slot() {
 	translate([0,3.25])square([2.8,6.5],center=true);
 	translate([0,3.5])square([2.5+2.8,1.65],center=true);
 }
-
+module xy_slotholes(x,y,r,d,o=0) {
+	for(xt=[x,-x])for(yt=[-y,y])translate([xt,yt])rotate(a=[0,0,o])slot_hole(r=r,d=d);
+}
 //Render
 platform1(); //1
-!platform2(); //1
+platform2(); //1
 z_motor_hold_top();  //2
 z_motor_hold_back(); //2
 z_motor_hold_side(); //4
@@ -164,4 +184,5 @@ y_rod_hold(); //2
 y_rod_hold_cover(); //4
 angle();
 y_axis_connector(); //1
-thread_hold(); //2
+!profile_top(); //2
+bearing_hold(); //2
