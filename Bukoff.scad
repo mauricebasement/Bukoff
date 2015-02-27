@@ -70,7 +70,7 @@ module y_rod_hold_cover() {
 	}
 }
 
-module angle(profileSize=20,length=60,holeRadius=2.5,number=3) {
+module angle(profileSize=20,length=60,holeRadius=2.5,number=2) {
 i=profileSize/2;
 j=length-profileSize/2;
 	difference() {
@@ -105,13 +105,53 @@ module bearing_hold() {
 		circle(r=8);
 	}
 }
+module brass_hold() {
+	difference() {
+		square(32,center=true);
+		x_holes(x=10,r=1.5);
+		brass_cut();
+	}
+}
+
+module z_guide() {
+	translate([17.5,0])profile_guide();
+	translate([-21,0])z_holder();
+}
+module profile_guide(zTolerance=0.02) {
+	difference() {
+		square([50,50],center=true);
+		for(i=[1-zTolerance,1,1+zTolerance]) {
+			scale(v=[i,1])profile();
+			scale(v=[1,i])profile();
+		}	
+		x_holes(x=13);
+		xy_squares(x=20,y=20,s=5);
+	}
+}
+module z_middle() {
+	intersection() {
+		square(32,center=true);
+		profile_guide();
+	}
+}
 
 //Helper Modules
-module thread_hold() {
+module z_holder() {
+	difference() {
+		translate([2.5,0])square([37,35],center=true);
+		xy_slotholes(x=10,y=10,r=1.5,d=1.5,o=90);
+		circle(r=6);
+	}
+}
+module brass_cut() {
+	circle(r=5);
+	for(i=[0:3])rotate(a=[0,0,90*i])translate([8,0])circle(r=1.5);
+}
+module thread_hold(r=6) {
 	difference() {
 		square(32,center=true);
 		xy_slotholes(x=10,y=10,r=1.5,d=1.5,o=90);
-		circle(r=6);
+		circle(r=r);
 	}
 }
 module profile_connector() {
@@ -140,6 +180,9 @@ module profile() {
 }
 module xy_holes(x,y,r) {
 	for(i=[1,0])for(j=[0,1])mirror([0,j,0])mirror([i,0,0])translate([x,y])circle(r=r);
+}
+module xy_squares(x,y,s) {
+	for(i=[1,0])for(j=[0,1])mirror([0,j,0])mirror([i,0,0])translate([x,y])square(s,center=true);
 }
 module x_holes(x,r) {
 	for(i=[0:3])rotate(a=[0,0,i*90])translate([x,x])circle(r=r);
@@ -180,11 +223,14 @@ module xy_slotholes(x,y,r,d,o=0) {
 platform1(); //1
 platform2(); //1
 z_motor_hold_top();  //2
-z_motor_hold_back(); //2
-z_motor_hold_side(); //4
-!y_rod_hold(); //2
+z_motor_hold_back(); //2z_motor_hold_side(); //4
+y_rod_hold(); //2
 y_rod_hold_cover(); //4
 angle();
 y_axis_connector(); //1
-!profile_top(); //2
+profile_top(); //2
 bearing_hold(); //2
+!z_guide(); //
+z_middle(); //6
+brass_hold(); //2
+
