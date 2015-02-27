@@ -134,7 +134,15 @@ module z_middle() {
 		profile_guide();
 	}
 }
-
+module x_rod_hold() {
+	difference() {
+		union() {
+			square([15,45],center=true);
+			xy_squares(x=10,y=20,s=5);
+		}
+		for(i=[-1,1])translate([0,i*16])circle(r=4);
+	}
+}
 //Helper Modules
 module z_holder() {
 	difference() {
@@ -220,7 +228,7 @@ module xy_slotholes(x,y,r,d,o=0) {
 	for(xt=[x,-x])for(yt=[-y,y])translate([xt,yt])rotate(a=[0,0,o])slot_hole(r=r,d=d);
 }
 //Render
-platform1(); //1
+!platform1(); //1
 platform2(); //1
 z_motor_hold_top();  //2
 z_motor_hold_back(); //2z_motor_hold_side(); //4
@@ -230,7 +238,8 @@ angle();
 y_axis_connector(); //1
 profile_top(); //2
 bearing_hold(); //2
-!z_guide(); //
+z_guide(); //
 z_middle(); //6
 brass_hold(); //2
+x_rod_hold(); //4
 
