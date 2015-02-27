@@ -112,19 +112,29 @@ module brass_hold() {
 	}
 }
 
+module z_guide2() {
+	translate([17.5,0])profile_guide();
+	translate([-21,0])z_holder();
+}
 module z_guide() {
 	translate([17.5,0])profile_guide();
 	translate([-21,0])z_holder();
 }
+
+
 module profile_guide(zTolerance=0.02) {
 	difference() {
-		square([50,50],center=true);
+		union() {
+			square([50,50],center=true);
+			translate([21+10,0])square([60,50],center=true);
+		}
 		for(i=[1-zTolerance,1,1+zTolerance]) {
 			scale(v=[i,1])profile();
 			scale(v=[1,i])profile();
 		}	
-		x_holes(x=13);
-		xy_squares(x=20,y=20,s=5);
+		xy_holes(x=12,y=20,r=1.5);
+		for(i=[-20,20,55])xy_squares(x=i,y=20,s=5);
+		translate([10+21,0])motor(hole=true,screw_i=true);
 	}
 }
 module z_middle() {
@@ -159,6 +169,7 @@ module z_holder() {
 		translate([2.5,0])square([37,35],center=true);
 		xy_slotholes(x=10,y=10,r=1.5,d=1.5,o=90);
 		circle(r=6);
+
 	}
 }
 module brass_cut() {
@@ -248,9 +259,9 @@ angle(); //8
 y_axis_connector(); //1
 profile_top(); //2
 bearing_hold(); //2
-z_guide(); //
+!z_guide(); //
 z_middle(); //6
 brass_hold(); //2
 x_rod_hold(); //4
-!x_carriage();
+x_carriage();
 
