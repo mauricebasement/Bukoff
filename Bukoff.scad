@@ -151,8 +151,6 @@ module square_hole() {
 		circle(r=1.5);
 	}
 }
-
-
 module t_slot() {
 	translate([0,3.25])square([2.8,6.5],center=true);
 	translate([0,3.5])square([2.5+2.8,1.65],center=true);
