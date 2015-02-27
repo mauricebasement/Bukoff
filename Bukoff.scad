@@ -70,6 +70,21 @@ module y_rod_hold_cover() {
 	}
 }
 
+module angle(profileSize=20,length=60,holeRadius=2.5,number=3) {
+i=profileSize/2;
+j=length-profileSize/2;
+	difference() {
+		union() {
+			square([profileSize,length]);
+			square([length,profileSize]);
+		}
+		for(k=[i:((j-i)/number):(j+((j-i)/number))]) {
+			translate([k,i])circle(r=holeRadius);
+			translate([i,k])circle(r=holeRadius);
+		}
+	}
+}
+
 //Helper Modules
 module slot_hole(r,d) {
 	hull() {
@@ -127,9 +142,10 @@ module t_slot() {
 
 //Render
 platform1(); //1
-!platform2(); //1
+platform2(); //1
 z_motor_hold_top();  //2
 z_motor_hold_back(); //2
 z_motor_hold_side(); //4
 y_rod_hold(); //2
 y_rod_hold_cover(); //4
+!angle();
