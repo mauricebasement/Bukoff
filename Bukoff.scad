@@ -3,6 +3,7 @@
 //Variables
 $fn=50;
 zMotorHoldX = 62;
+xRodDistance = 18;
 
 //Modules
 module platform1() {
@@ -70,7 +71,7 @@ module y_rod_hold_cover() {
 	}
 }
 
-module angle(profileSize=20,length=60,holeRadius=2.5,number=2) {
+module angle(profileSize=20,length=60,holeRadius=2.5,number=1) {
 i=profileSize/2;
 j=length-profileSize/2;
 	difference() {
@@ -78,10 +79,8 @@ j=length-profileSize/2;
 			square([profileSize,length]);
 			square([length,profileSize]);
 		}
-		for(k=[i:((j-i)/number):(j+((j-i)/number))]) {
-			translate([k,i])circle(r=holeRadius);
-			translate([i,k])circle(r=holeRadius);
-		}
+		for(k=[i:((j-i)/number):(j+((j-i)/number))])translate([k,i])circle(r=holeRadius);
+		for(k=[i:((j-i)/(number+1)):(j+((j-i)/(number+1)))])translate([i,k])circle(r=holeRadius);
 	}
 }
 module y_axis_connector() {
@@ -137,13 +136,24 @@ module z_middle() {
 module x_rod_hold() {
 	difference() {
 		union() {
-			square([15,45],center=true);
+			square([15.5,50],center=true);
 			xy_squares(x=10,y=20,s=5);
 		}
-		for(i=[-1,1])translate([0,i*16])circle(r=4);
+		for(i=[-1,1])translate([0,i*xRodDistance])circle(r=4);
+	}
+}
+module x_carriage() {
+	difference() {
+		square([30,60],center=true);
+		translate([0,xRodDistance])lbr_cut();
+		for(i=[-1,1])translate([0,i*xRodDistance])lbr_cut();
 	}
 }
 //Helper Modules
+module lbr_cut() {
+	square([24,8],center=true);
+	for(i=[-1,1])for(j=[-1,1])translate([i*10,j*7.5])square([3,1.5],center=true);
+}
 module z_holder() {
 	difference() {
 		translate([2.5,0])square([37,35],center=true);
@@ -228,13 +238,13 @@ module xy_slotholes(x,y,r,d,o=0) {
 	for(xt=[x,-x])for(yt=[-y,y])translate([xt,yt])rotate(a=[0,0,o])slot_hole(r=r,d=d);
 }
 //Render
-!platform1(); //1
+platform1(); //1
 platform2(); //1
 z_motor_hold_top();  //2
 z_motor_hold_back(); //2z_motor_hold_side(); //4
 y_rod_hold(); //2
 y_rod_hold_cover(); //4
-angle();
+angle(); //8
 y_axis_connector(); //1
 profile_top(); //2
 bearing_hold(); //2
@@ -242,4 +252,5 @@ z_guide(); //
 z_middle(); //6
 brass_hold(); //2
 x_rod_hold(); //4
+!x_carriage();
 
