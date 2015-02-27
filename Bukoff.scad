@@ -7,12 +7,7 @@ zMotorHoldX = 62;
 //Modules
 module platform1() {
 	difference() {
-		scale(v=[1.05,1.05])hull()platform_raw();
-		platform_raw();
-	}
-}
-module platform_raw() {
-	union() {
+		square([230,205],center=true);
 		for(i=[1,-1])translate([-50,i*50])xy_holes(x=9,y=12,r=1.5);
 		translate([50,0])xy_holes(x=9,y=12,r=1.5);
 		for(i=[-1,1])for(j=[1,-1])translate([i*212.2/2,j*60])circle(r=2);
@@ -75,7 +70,7 @@ module y_rod_hold_cover() {
 	}
 }
 
-module angle(profileSize=20,length=60,holeRadius=2.5,number=2) {
+module angle(profileSize=20,length=60,holeRadius=2.5,number=3) {
 i=profileSize/2;
 j=length-profileSize/2;
 	difference() {
@@ -162,7 +157,7 @@ module t_slot() {
 }
 
 //Render
-!platform1(); //1
+platform1(); //1
 platform2(); //1
 z_motor_hold_top();  //2
 z_motor_hold_back(); //2
