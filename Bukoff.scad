@@ -6,22 +6,27 @@ zMotorHoldX = 62;
 xRodDistance = 18;
 
 //Modules
+//1. Platform
 module platform1() {
 	difference() {
 		square([230,140],center=true);
-		for(i=[1,-1])translate([-70,i*50])xy_holes(x=9,y=12,r=1.5);
-		translate([70,0])xy_holes(x=9,y=12,r=1.5);
+		for(i=[1,-1]) {
+			translate([-70,i*50])tr_xy(x=9,y=12)circle(r=1.5);
+			translate([5,i*65])circle(r=1.5);
+		}
+		translate([70,0])	tr_xy(x=9,y=12)circle(r=1.5);
 		for(i=[-1,1])for(j=[1,-1])translate([i*212.2/2,j*60])circle(r=2);
-		x_holes(x=50,r=1.5);
+		tr_xy(x=50)circle(r=1.5);
 	}
 }
 module platform2() {
 	difference() {
 		square([200,200],center=true);
 		for(i=[-1,1])for(j=[1,-1])translate([i*212.2/2,j*60])circle(r=9);
-		x_holes(x=50,r=1.5);
+		tr_xy(x=50)circle(r=1.5);
 	}
 }
+//2. Z Motor Hold
 module z_motor_hold_top() {
 	difference() {
 		translate([0,5])square([zMotorHoldX,69],center=true);
@@ -56,31 +61,18 @@ module z_motor_hold_side() {
 	}
 	for(j=[-1,1])for(i=[10,30,40,60])translate([0,i-5])square(5);
 	for(j=[-1,1])for(i=[25,45])translate([i-5,-5])square(5);
-
 }
-module y_rod_hold() {
+//3. Y Rod Hold
+module y_rod_hold(wide=wide) {
 	difference() {
 		y_rod_hold_hull();
-		y_rod_hold_cut();
+		y_rod_hold_cut(wide=wide);
 	}
 }
 module y_rod_hold_cover() {
 	difference() {
 		circle(r=12);
 		x_holes(r=1.5,x=5);
-	}
-}
-
-module angle(profileSize=20,length=60,holeRadius=2.5,number=1) {
-i=profileSize/2;
-j=length-profileSize/2;
-	difference() {
-		union() {
-			square([profileSize,length]);
-			square([length,profileSize]);
-		}
-		for(k=[i:((j-i)/number):(j+((j-i)/number))])translate([k,i])circle(r=holeRadius);
-		for(k=[i:((j-i)/(number+1)):(j+((j-i)/(number+1)))])translate([i,k])circle(r=holeRadius);
 	}
 }
 module y_axis_connector() {
@@ -91,6 +83,19 @@ module y_axis_connector() {
 		}
 		xy_holes(r=2.5,y=20,x=10);
 		for(i=[-1,1])translate([i*40,0])circle(r=2.5);
+	}
+}
+//4. Frame
+module angle(profileSize=20,length=60,holeRadius=2.5,number=1) {
+i=profileSize/2;
+j=length-profileSize/2;
+	difference() {
+		union() {
+			square([profileSize,length]);
+			square([length,profileSize]);
+		}
+		for(k=[i:((j-i)/number):(j+((j-i)/number))])translate([k,i])circle(r=holeRadius);
+		for(k=[i:((j-i)/(number+1)):(j+((j-i)/(number+1)))])translate([i,k])circle(r=holeRadius);
 	}
 }
 module profile_top() {
@@ -104,6 +109,7 @@ module bearing_hold() {
 		circle(r=8);
 	}
 }
+//5. Z Guide
 module brass_hold() {
 	difference() {
 		square(32,center=true);
@@ -127,7 +133,7 @@ module guide_cover() {
 		profile_guide();
 	}	
 }
-!guide_cover();
+
 module profile_guide(zTolerance=0.02) {
 	difference() {
 		union() {
@@ -158,6 +164,7 @@ module x_rod_hold() {
 		for(i=[-1,1])translate([0,i*xRodDistance])circle(r=4);
 	}
 }
+//6. X_Carriage
 module x_carriage() {
 	difference() {
 		square([30,60],center=true);
@@ -166,6 +173,13 @@ module x_carriage() {
 	}
 }
 //Helper Modules
+module tr_xy(x,y=0) {
+	if(y==0) {
+		for(i=[-1,1])for(j=[-1,1])translate([x*i,x*j])children();
+	} else {
+		for(i=[-1,1])for(j=[-1,1])translate([x*i,y*j])children();
+	}
+}
 module lbr_cut() {
 	square([24,8],center=true);
 	for(i=[-1,1])for(j=[-1,1])translate([i*10,j*7.5])square([3,1.5],center=true);
@@ -222,7 +236,7 @@ module xy_squares(x,y,s) {
 module x_holes(x,r) {
 	for(i=[0:3])rotate(a=[0,0,i*90])translate([x,x])circle(r=r);
 }
-module y_rod_hold_cut() {
+module y_rod_hold_cut(wide=40) {
 	for(i=[-1,1]) {
 		translate([i*10,0])	circle(r=2.5);
 		translate([i*70,8]) {
@@ -230,13 +244,15 @@ module y_rod_hold_cut() {
 			x_holes(r=1.5,x=6);
 		}
 	}
-	//translate([0,2.5])square([40,5],center=true); option
+	translate([0,12.5])square([40,5],center=true);
+	translate([0,-12.5])square([wide,5],center=true);
 }
 module y_rod_hold_hull() {
 	hull()for(i=[-1,1]) {
 		translate([i*70,8])circle(r=13);
-		translate([i*20,0])circle(r=10);
+		translate([i*20,-5])circle(r=10);
 	}
+	
 }
 module squares(x,o) {
 	for(i=[o:2:x])translate([0,i*5+2.5])square(5,center=true);
@@ -255,19 +271,28 @@ module xy_slotholes(x,y,r,d,o=0) {
 	for(xt=[x,-x])for(yt=[-y,y])translate([xt,yt])rotate(a=[0,0,o])slot_hole(r=r,d=d);
 }
 //Render
-platform1(); //1
+//1. Platform
+!platform1(); //1
 platform2(); //1
+//2. Z Motor Hold
 z_motor_hold_top();  //2
-z_motor_hold_back(); //2z_motor_hold_side(); //4
-y_rod_hold(); //2
+z_motor_hold_back(); //2
+z_motor_hold_side(); //4
+//3. Y Rod Hold
+y_rod_hold(wide=40); //1
+y_rod_hold(wide=50); //1
 y_rod_hold_cover(); //4
-angle(); //8
 y_axis_connector(); //1
+//4. Frame
+angle(); //8 /4 ?
 profile_top(); //2
 bearing_hold(); //2
-!z_guide(); //
+//5. Z Guide
+z_guide(); //2
+guide_cover(); //2
 z_middle(); //6
 brass_hold(); //2
 x_rod_hold(); //4
+//6. X_Carriage
 x_carriage();
 
