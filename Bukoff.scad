@@ -75,14 +75,28 @@ module y_rod_hold_cover() {
 		x_holes(r=1.5,x=5);
 	}
 }
-module y_axis_connector() {
+module motor_hold() {
+	translate([-40,0])profile_square();
 	difference() {
-		union() {
-			square([100,20],center=true);
-			square([40,60],center=true);
-		}
-		xy_holes(r=2.5,y=20,x=10);
-		for(i=[-1,1])translate([i*40,0])circle(r=2.5);
+		square([40],center=true);
+		motor(screw_i=true,hole=true);
+	}
+}
+module motor_hold_bottom() {
+	translate([-40,0])profile_square();
+	difference() {
+		square(40,center=true);
+		motor(screw_i=true,hole=true);
+	}
+}
+module belt_hold() {
+
+}
+//Helper Modules
+module profile_square(y=40) {
+	difference() {
+		square([40,y],center=true);
+		tr_xy(x=10)circle(r=2.5);
 	}
 }
 //4. Frame
@@ -105,8 +119,18 @@ module profile_top() {
 module bearing_hold() {
 	difference() {
 		square(32,center=true);
-		x_holes(x=10,r=1.5);
+		tr_xy(x=10)circle(r=1.5);
 		circle(r=8);
+	}
+}
+module y_axis_connector() {
+	difference() {
+		union() {
+			square([100,20],center=true);
+			square([40,60],center=true);
+		}
+		tr_xy(x=10,y=20)circle(r=2.5);
+		for(i=[-1,1])translate([i*40,0])circle(r=2.5);
 	}
 }
 //5. Z Guide
@@ -272,7 +296,7 @@ module xy_slotholes(x,y,r,d,o=0) {
 }
 //Render
 //1. Platform
-!platform1(); //1
+platform1(); //1
 platform2(); //1
 //2. Z Motor Hold
 z_motor_hold_top();  //2
@@ -283,6 +307,8 @@ y_rod_hold(wide=40); //1
 y_rod_hold(wide=50); //1
 y_rod_hold_cover(); //4
 y_axis_connector(); //1
+!motor_hold(); //1
+belt_hold(); //1
 //4. Frame
 angle(); //8 /4 ?
 profile_top(); //2
