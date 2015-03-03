@@ -11,7 +11,7 @@ module platform1() {
 	difference() {
 		square([230,140],center=true);
 		for(i=[1,-1]) {
-			translate([-70,i*50])tr_xy(x=9,y=12)circle(r=1.5);
+			translate([-70,i*50])tr_xy(x=9,y=12)circle(r=2);
 			translate([5,i*65])circle(r=1.5);
 		}
 		translate([70,0])	tr_xy(x=9,y=12)circle(r=1.5);
@@ -307,7 +307,7 @@ y_rod_hold(wide=40); //1
 y_rod_hold(wide=50); //1
 y_rod_hold_cover(); //4
 y_axis_connector(); //1
-!motor_hold(); //1
+motor_hold(); //1
 belt_hold(); //1
 //4. Frame
 angle(); //8 /4 ?
