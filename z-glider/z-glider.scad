@@ -3,15 +3,8 @@ module profile(h=50) {
 	linear_extrude(height=h)import("profile.dxf");
 }
 
-
-
-
-
-
-
-
 //Option: FDM Printed Glider
-module glider(x=20,y=5,z=50,ex=8.5,b=5) {
+module glider(x=20,y=5,z=20,ex=8.5,b=5) {
 	translate([0,0,z/2])cube([x,y,z],center=true);
 	translate([0,ex/2,z/2])cube([b,ex,z],center=true);
 }
@@ -28,7 +21,7 @@ module glider1(b) {
 		glider_cut(b=b);
 	}
 }
-glider1(b=10);
+
 //Option: Laser Cut Glider
 module flat() {
 	difference(){
@@ -42,5 +35,12 @@ module stick_out() {
 }
 module cut_glider() {
 	flat();
-	stick_out();
+	translate([19.01,0])stick_out();
 }
+
+//Render
+
+glider1(b=10);
+glider1(b=7);
+glider1(b=5);
+cut_glider();
