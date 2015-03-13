@@ -1,6 +1,6 @@
 //Bukoff
 module profile(h=50) {
-	linear_extrude(height=h)import("profile.dxf");
+	scale(1.05)linear_extrude(height=h)import("profile.dxf");
 }
 
 //Option: FDM Printed Glider
@@ -9,7 +9,7 @@ module glider(x=20,y=5,z=20,ex=8.5,b=5) {
 	translate([0,ex/2,z/2])cube([b,ex,z],center=true);
 }
 
-module glider_cut(b=b) {
+module glider_cut(b) {
 	intersection() {
 		translate([0,10])profile();
 		translate([0,-2.5])glider(b=b);
@@ -40,7 +40,7 @@ module cut_glider() {
 
 //Render
 
-glider1(b=10);
+!glider1(b=10);
 glider1(b=7);
 glider1(b=5);
 cut_glider();
