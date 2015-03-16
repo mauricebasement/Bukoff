@@ -4,8 +4,8 @@ module profile(h=50) {
 }
 
 //Option: FDM Printed Glider
-module glider(x=20,y=5,ex=10,b=5) {
-	square([x,y],center=true);
+module glider(x=23,y=10,ex=10,b=5) {
+	translate([0,-1])square([x,y],center=true);
 	translate([0,ex/2])square([b,ex],center=true);
 }
 
