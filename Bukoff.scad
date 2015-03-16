@@ -1,4 +1,4 @@
-//BukOff
+//BukOff by Moritz Keller
 
 //Variables
 $fn=50;
@@ -63,7 +63,7 @@ module z_motor_hold_side() {
 	for(j=[-1,1])for(i=[25,45])translate([i-5,-5])square(5);
 }
 //3. Y Rod Hold
-module y_rod_hold(wide=wide) {
+module y_rod_hold(wide) {
 	difference() {
 		y_rod_hold_hull();
 		y_rod_hold_cut(wide=wide);
@@ -77,8 +77,8 @@ module y_rod_hold_cover() {
 }
 module motor_hold() {
 	translate([-40,0])profile_square();
-	difference() {
-		square([40],center=true);
+    difference() {
+		square(40,center=true);
 		motor(screw_i=true,hole=true);
 	}
 }
@@ -259,7 +259,7 @@ y_rod_hold(wide=40); //1
 y_rod_hold(wide=50); //1
 y_rod_hold_cover(); //4
 y_axis_connector(); //1
-!motor_hold(); //1
+motor_hold(); //1
 belt_hold(); //1
 //4. Frame
 angle(); //8 /4 ?
