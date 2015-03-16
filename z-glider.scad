@@ -25,4 +25,10 @@ module glider1(b) {
 
 //Render
 glider1(b=5);
-    
+   
+module z_glider(h=40,screw_d=5,screw_r=1.5) {
+    difference() {
+        linear_extrude(height=h)import("z-glider.dxf");
+        for(i=[screw_d,h/2,h-screw_d])translate([0,-5,i])rotate(a=[0,90,0])cylinder(r=screw_r,center=true,h=30);
+    }
+}
