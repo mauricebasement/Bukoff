@@ -4,7 +4,7 @@ module profile(h=50) {
 }
 
 //Option: FDM Printed Glider
-module glider(x=20,y=5,z=20,ex=8.6,b=5) {
+module glider(x=20,y=5,z=3,ex=8.6,b=5) {
 	translate([0,0,z/2])cube([x,y,z],center=true);
 	translate([0,ex/2,z/2])cube([b,ex,z],center=true);
 }
@@ -42,5 +42,8 @@ module cut_glider() {
 
 glider1(b=10);
 glider1(b=7);
-!scale(0.95)glider1(b=5);
+glider1(b=5);
+scale(0.99)glider1(b=5);
+scale(0.97)glider1(b=5);
+scale(0.95)glider1(b=5);
 cut_glider();
