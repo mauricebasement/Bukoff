@@ -28,8 +28,7 @@ module glider1(b) {
 module z_glider(h=40,screw_dx=5,screw_dy=7,screw_r=1.5) {
     difference() {
         linear_extrude(height=h)offset(r=-.1)glider1(b=5);
-        for(i=[screw_dx,screw_dx*2,screw_dx*3,h/2,h-screw_dx,h-screw_dx*2,h-screw_dx*3])translate([0,-5,i])rotate(a=[0,90,0])cylinder(r=screw_r,center=true,h=30);
-        for(i=[screw_dy,screw_dy/2,0,-screw_dy,-screw_dy/2])translate([i,-5,0])rotate(a=[0,0,0])cylinder(r=screw_r,h=h);
+        translate([0,0,1])resize([0,0,38])linear_extrude(height=h)offset(r=-1.1)glider1(b=5);
     }
 }
 z_glider();
