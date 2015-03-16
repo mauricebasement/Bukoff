@@ -134,60 +134,6 @@ module y_axis_connector() {
 	}
 }
 //5. Z Guide
-module brass_hold() {
-	difference() {
-		square(32,center=true);
-		x_holes(x=10,r=1.5);
-		brass_cut();
-	}
-}
-
-module z_guide2() {
-	translate([17.5,0])profile_guide();
-	translate([-21,0])z_holder();
-}
-module z_guide() {
-	translate([17.5,0])profile_guide();
-	translate([-21,0])z_holder();
-}
-
-module guide_cover() {
-	intersection() {
-		translate([35-17.5,0])square([90,50],center=true);
-		profile_guide();
-	}	
-}
-
-module profile_guide(zTolerance=0.02) {
-	difference() {
-		union() {
-			square([50,50],center=true);
-			translate([21+10,0])square([60,50],center=true);
-		}
-		for(i=[1-zTolerance,1,1+zTolerance]) {
-			scale(v=[i,1])profile();
-			scale(v=[1,i])profile();
-		}	
-		xy_holes(x=12,y=20,r=1.5);
-		for(i=[-20,20,55])translate([i,0])xy_squares(x=0,y=20,s=5);
-		translate([10+22,0])motor(hole=true,screw_i=true);
-	}
-}
-module z_middle() {
-	intersection() {
-		square(32,center=true);
-		profile_guide();
-	}
-}
-module x_rod_hold() {
-	difference() {
-		union() {
-			square([15.5,50],center=true);
-			xy_squares(x=10,y=20,s=5);
-		}
-		for(i=[-1,1])translate([0,i*xRodDistance])circle(r=4);
-	}
-}
 //6. X_Carriage
 module x_carriage() {
 	difference() {
@@ -314,11 +260,6 @@ angle(); //8 /4 ?
 profile_top(); //2
 bearing_hold(); //2
 //5. Z Guide
-z_guide(); //2
-guide_cover(); //2
-z_middle(); //6
-brass_hold(); //2
-x_rod_hold(); //4
 //6. X_Carriage
 x_carriage();
 
