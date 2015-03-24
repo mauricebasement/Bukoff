@@ -139,11 +139,16 @@ module y_axis_connector() {
 	difference() {
 		union() {
 			square([100,20],center=true);
-			square([40,60],center=true);
+			square([40,100],center=true);
 		}
-		tr_xy(x=10,y=20)circle(r=2.5);
+		tr_xy(x=10,y=40)circle(r=2.5);
+        tr_xy(x=17.5,y=47.5)square(5,center=true);
+        tr_xy(x=17.5,y=12.5)square(5,center=true);
 		for(i=[-1,1])translate([i*40,0])circle(r=2.5);
 	}
+}
+module y_axis_connector_side() {
+    
 }
 //5. Z Guide
 
@@ -265,11 +270,10 @@ z_motor_hold_side(); //4
 y_rod_hold(wide=40); //1
 y_rod_hold(wide=50); //1
 y_rod_hold_cover(); //4
-y_axis_connector(); //1
-motor_hold(); //1
-belt_hold(); //1
-motor_hold(y=60,face=true);
-!motor_hold(y=40);
+!y_axis_connector(); //1
+belt_hold(); //2
+motor_hold(y=60,face=true); //1
+motor_hold(y=40); //1
 //4. Frame
 angle(); //8 /4 ?
 profile_top(); //2
