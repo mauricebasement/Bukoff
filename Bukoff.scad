@@ -137,19 +137,49 @@ module bearing_hold() {
 }
 module y_axis_connector() {
 	difference() {
-		union() {
+		hull()union() {
 			square([100,20],center=true);
-			square([40,100],center=true);
+			square([50,110],center=true);
 		}
 		tr_xy(x=10,y=40)circle(r=2.5);
-        tr_xy(x=17.5,y=47.5)square(5,center=true);
-        tr_xy(x=17.5,y=12.5)square(5,center=true);
+        tr_xy(x=22.5,y=47.5)square(5,center=true);
+        tr_xy(x=22.5,y=12.5)square(5,center=true);
 		for(i=[-1,1])translate([i*40,0])circle(r=2.5);
 	}
 }
 module y_axis_connector_side() {
-    
+    difference() {
+        square([40,100],center=true);
+        translate([10,0])square([20,20],center=true);
+        translate([-7.5,0])square([5,20],center=true);
+    }
+    translate([22.5,0])tr_xy(x=0,y=47.5)square(5,center=true);
+    translate([22.5,0])tr_xy(x=0,y=12.5)square(5,center=true);
 }
+module y_axis_connector_bottom() {
+    difference() {
+        union() {
+            square([20,90],center=true);
+            square([25,40],center=true);
+        }
+        tr_xy(x=0,y=35)circle(r=2.5);
+        circle(r=2.5);
+    }
+}
+module y_axis_connector_square() {
+    difference() {
+        square(20,center=true);
+        circle(r=2.5);
+    }
+}
+module y_axis_connector_middle_square() {
+    difference() {
+        square([20,40],center=true);
+        circle(r=2.5);
+    }
+}
+
+
 //5. Z Guide
 
 //6. X_Carriage
@@ -270,12 +300,16 @@ z_motor_hold_side(); //4
 y_rod_hold(wide=40); //1
 y_rod_hold(wide=50); //1
 y_rod_hold_cover(); //4
-!y_axis_connector(); //1
 belt_hold(); //2
 motor_hold(y=60,face=true); //1
 motor_hold(y=40); //1
 //4. Frame
 angle(); //8 /4 ?
+y_axis_connector(); //1
+y_axis_connector_side(); //2
+y_axis_connector_bottom(); //1
+y_axis_connector_square(); //2
+y_axis_connector_middle_square(); //1
 profile_top(); //2
 bearing_hold(); //2
 //5. Z Guide
