@@ -41,4 +41,5 @@ module z_glider(h=40,screw_d=5,screw_dy=6.5,screw_r=1.7,rot=30,screw_dx=5) {
 module screw(h,screw_d,screw_dy,screw_r,h2,o) {
     for(i=[screw_d,h-screw_d])for(j=[screw_dy,-screw_dy])translate([j,o,i])rotate(a=[90,0,0])cylinder(h=h2,r=screw_r);
     }
-z_glider();
+*z_glider();
+translate([0,20])projection(cut=true)translate([0,0,9])rotate([90,0,0])z_glider();

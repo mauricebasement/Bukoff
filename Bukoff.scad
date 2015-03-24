@@ -181,7 +181,36 @@ module y_axis_connector_middle_square() {
 
 
 //5. Z Guide
-
+module z_glider() {
+    import("z-glider.stl");
+}
+module z_glider_cut(negativ) {
+    if (negativ==true) {
+    negativ_sq()import("z-glider_cut.dxf");
+    }else{
+    import("z-glider_cut.dxf");
+    }
+}
+module z_guide_side_one() {
+    difference() {
+        z_guide_side(40);
+        translate([33,0])motor(screw_i=true,a=0,hole=true);
+    }
+}
+module z_guide_side_two() {
+    difference() {
+        z_guide_side(50);
+        translate([33,0])motor(face=true);
+    }    
+}
+module z_guide_side(x) {
+    difference() {
+        translate([10,0])square([100,x],center=true);
+        z_glider_cut(negativ=true);
+    }
+}
+*z_guide_side_one();
+*z_guide_side_two();
 //6. X_Carriage
 module x_carriage() {
 	difference() {
@@ -288,6 +317,12 @@ module t_slot() {
 module xy_slotholes(x,y,r,d,o=0) {
 	for(xt=[x,-x])for(yt=[-y,y])translate([xt,yt])rotate(a=[0,0,o])slot_hole(r=r,d=d);
 }
+module negativ_sq() {
+    difference() {
+        hull()children();
+        children();
+    }
+}
 //Render
 //1. Platform
 platform1(); //1
@@ -313,6 +348,7 @@ y_axis_connector_middle_square(); //1
 profile_top(); //2
 bearing_hold(); //2
 //5. Z Guide
+z_glider(); //4 SLA
 
 //6. X_Carriage
 x_carriage();
