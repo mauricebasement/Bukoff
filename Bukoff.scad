@@ -14,7 +14,7 @@ module platform1() {
 			translate([-70,i*50])tr_xy(x=9,y=12)circle(r=2);
 			translate([5,i*65])circle(r=1.5);
 		}
-		translate([70,0])	tr_xy(x=9,y=12)circle(r=1.5);
+		translate([70,0])	tr_xy(x=9,y=12)circle(r=2);
 		for(i=[-1,1])for(j=[1,-1])translate([i*212.2/2,j*60])circle(r=2);
 		tr_xy(x=50)circle(r=1.5);
 	}
@@ -313,7 +313,7 @@ y_axis_connector_middle_square(); //1
 profile_top(); //2
 bearing_hold(); //2
 //5. Z Guide
-//z_glider(); //4 (SLA) needs to be hollowed with meshmixer
+
 //6. X_Carriage
 x_carriage();
 
