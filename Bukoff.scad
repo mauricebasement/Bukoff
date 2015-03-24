@@ -75,24 +75,36 @@ module y_rod_hold_cover() {
 		x_holes(r=1.5,x=5);
 	}
 }
-module motor_hold() {
-	translate([-40,0])profile_square();
-    difference() {
-		square(40,center=true);
-		motor(screw_i=true,hole=true);
+module motor_hold(y,face) {
+	profile_square();
+    translate([0,25])square([y,10],center=true);
+	translate([0,50])difference() {
+		square([y,y],center=true);
+		motor(screw_i=true,hole=true,face=face);
 	}
+    holds();
 }
 module motor_hold_bottom() {
-	translate([-40,0])profile_square();
-	difference() {
+	profile_square();
+	translate([0,40])difference() {
 		square(40,center=true);
 		motor(screw_i=true,hole=true);
 	}
+    holds();
 }
-module belt_hold() {
 
+module belt_hold() {
+    profile_square();
+    holds();
+    difference() {
+        translate([0,30])square([40,35],center=true);
+        translate([0,35])circle(r=7);
+    }
 }
 //Helper Modules
+module holds() {
+    for(i=[0,1])mirror([i,0,0])polygon(points=[[20,0],[60,20],[20,20]]);
+}
 module profile_square(y=40) {
 	difference() {
 		square([40,y],center=true);
@@ -256,6 +268,8 @@ y_rod_hold_cover(); //4
 y_axis_connector(); //1
 motor_hold(); //1
 belt_hold(); //1
+motor_hold(y=60,face=true);
+!motor_hold(y=40);
 //4. Frame
 angle(); //8 /4 ?
 profile_top(); //2
@@ -264,4 +278,5 @@ bearing_hold(); //2
 //z_glider(); //4 (SLA) needs to be hollowed with meshmixer
 //6. X_Carriage
 x_carriage();
+
 
