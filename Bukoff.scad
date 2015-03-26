@@ -116,7 +116,7 @@ module angle(profileSize=20,length=60,holeRadius=2.5,number=1) {
 i=profileSize/2;
 j=length-profileSize/2;
 	difference() {
-		union() {
+		hull()union() {
 			square([profileSize,length]);
 			square([length,profileSize]);
 		}
@@ -138,13 +138,13 @@ module bearing_hold() {
 module y_axis_connector() {
 	difference() {
 		hull()union() {
-			square([100,20],center=true);
+			square([110,20],center=true);
 			square([50,110],center=true);
 		}
 		tr_xy(x=10,y=40)circle(r=2.5);
         tr_xy(x=22.5,y=47.5)square(5,center=true);
         tr_xy(x=22.5,y=12.5)square(5,center=true);
-		for(i=[-1,1])translate([i*40,0])circle(r=2.5);
+		for(i=[-1,1])translate([i*45,0])circle(r=2.5);
 	}
 }
 module y_axis_connector_side() {
