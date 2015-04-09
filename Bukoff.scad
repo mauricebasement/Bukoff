@@ -32,10 +32,18 @@ module platform_top() {
 	}
 }
 //Frame
-module frame_top (r=profileRadius,d=distanceFrame,bottom=true) {
+module frame_top(r=profileRadius,d=distanceFrame) {
+    difference() {
+        square([printerX+2.5*profileSize,profileSize*2],center=true);
+        for(i=[1,-1])translate([i*(printerX/2+profileSize/2),0])profile();
+        for(i=[-0.99999,1])translate([0,i*(profileSize+mdf)/2])frame_top_side_joints();
+     }
+        
+}
+module frame_top2 (r=profileRadius,d=distanceFrame) {
     difference() {
         union() {
-            square([printerX+2*profileSize,profileSize],center=true);
+            square([printerX+2*profileSize,profileSize*2],center=true);
             if(bottom==true)for(i=[1,-1])translate([i*(printerX/2+profileSize/2),0])square(profileSize*1.5,center=true);
             }
         for(i=[1,0,-1])translate([i*(printerX/2+profileSize/2),0])circle(r=r);
@@ -49,7 +57,8 @@ module frame_top_side() {
         square([profileSize*2+printerX,angleLength],center=true);
         tr_xy(x=printerX/2+profileSize/2,y=angleLength/2-profileSize/2)circle(r=profileRadius);
     }
-    for(i=[-0.99999,1])translate([0,i*(angleLength+mdf)/2])frame_top_side_joints()    ;
+    for(i=[-0.99999,1])translate([0,i*(angleLength+mdf)/2])frame_top_side_joints();
+    translate([0,(angleLength+mdf)/2+mdf])frame_top_side_joints();
 }
 //
 //Helper Modules
