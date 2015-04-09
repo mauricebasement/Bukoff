@@ -26,43 +26,6 @@ module platform2() {
 		tr_xy(x=50)circle(r=1.5);
 	}
 }
-//2. Z Motor Hold
-module z_motor_hold_top() {
-	difference() {
-		translate([0,5])square([zMotorHoldX,69],center=true);
-		translate([0,-20])square(20,center=true);
-		translate([0,11])motor(screw_i=true,a=1.5,hole=true);
-		for(i=[-1,1]){
-			translate([i*26,-25])squares(x=10,o=0);
-			translate([i*17.5,-30])t_slot();
-		}
-	}
-	for(i=[-1,1]) {
-		for(j=[12.5,42.5])translate([i*26,j-25])square_hole();
-		translate([i*26,-32])square([5,6],center=true);
-	}
-}
-module z_motor_hold_back() {
-	difference() {
-		square([zMotorHoldX,50],center=true);
-		for(i=[-1,1]) {
-			translate([i*26,-25])squares(x=10,o=1);
-			translate([i*17.5,22.5])circle(r=1.5);
-			translate([0,i*15])circle(r=2.5);
-		}
-	}
-	for(i=[-1,1])for(j=[17.5,37.5])translate([i*26,j-25])square_hole();
-}
-module z_motor_hold_side() {
-	difference() {
-		translate([5,0])square([40,69]);
-		for(i=[20,50])translate([5,i-2.5])rotate(a=[0,0,-90])t_slot();	
-		for(i=[15,35])translate([i-2.5,0])rotate(a=[0,0,00])t_slot();	
-	}
-	for(j=[-1,1])for(i=[10,30,40,60])translate([0,i-5])square(5);
-	for(j=[-1,1])for(i=[25,45])translate([i-5,-5])square(5);
-}
-//3. Y Rod Hold
 //4. Frame
 module angle(profileSize=20,length=60,holeRadius=2.5,number=0) {
 i=profileSize/2;
@@ -133,45 +96,6 @@ module y_axis_connector_middle_square() {
 }
 
 
-//5. Z Guide
-module z_glider() {
-    import("z-glider.stl");
-}
-module z_glider_cut(negativ) {
-    if (negativ==true) {
-    negativ_sq()import("z-glider_cut.dxf");
-    }else{
-    import("z-glider_cut.dxf");
-    }
-}
-module z_guide_side_one() {
-    difference() {
-        z_guide_side(40);
-        translate([33,0])motor(screw_i=true,a=0,hole=true);
-    }
-}
-module z_guide_side_two() {
-    difference() {
-        z_guide_side(50);
-        translate([33,0])motor(face=true);
-    }    
-}
-module z_guide_side(x) {
-    difference() {
-        translate([10,0])square([100,x],center=true);
-        z_glider_cut(negativ=true);
-    }
-}
-*z_guide_side_one();
-*z_guide_side_two();
-//6. X_Carriage
-module x_carriage() {
-	difference() {
-		square([30,60],center=true);
-		translate([0,xRodDistance])lbr_cut();
-		for(i=[-1,1])translate([0,i*xRodDistance])lbr_cut();
-	}
-}
 //Helper Modules
 module tr_xy(x,y=0) {
 	if(y==0) {
@@ -280,11 +204,6 @@ module negativ_sq() {
 //1. Platform
 platform1(); //1
 platform2(); //1
-//2. Z Motor Hold
-z_motor_hold_top();  //2
-z_motor_hold_back(); //2
-z_motor_hold_side(); //4
-//3. Y Rod Hold
 
 //4. Frame
 !angle(); //8 /4 ?
@@ -295,10 +214,6 @@ y_axis_connector_square(); //2
 y_axis_connector_middle_square(); //1
 profile_top(); //2
 bearing_hold(); //2
-//5. Z Guide
-z_glider(); //4 SLA
 
-//6. X_Carriage
-x_carriage();
 
 
