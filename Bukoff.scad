@@ -45,20 +45,9 @@ module frame_top (r=profileRadius,d=distanceFrame,bottom=true) {
 }
 module frame_top_side() {
     difference() {
-        translate([0,angleLength/2])square([profileSize*2+printerX,angleLength],center=true);
-        for(i=[-1,1])translate([i*(printerX/2+profileSize),0])mirror([max(i,0),0,0])angle_holes(number=1)circle(r=profileRadius);
+        square([profileSize*2+printerX,angleLength],center=true);
+        tr_xy(x=printerX/2+profileSize/2,y=angleLength/2-profileSize/2)circle(r=profileRadius);
     }    
-}
-module angle(holeRadius=profileRadius,number=1) {
-i=profileSize/2;
-j=angleLength-profileSize/2;
-	difference() {
-		hull()union() {
-			square([profileSize,angleLength]);
-			square([angleLength,profileSize]);
-		}
-		angle_holes(number=number)circle(r=holeRadius);
-	}
 }
 //Helper Modules
 module tr_xy(x,y=0) {
@@ -72,12 +61,7 @@ module profile() {
     import("dxf/profile.dxf");
     circle(r=2.5);
 }
-module angle_holes(number) {
-    i=profileSize/2;
-    j=angleLength-profileSize/2;
-    for(k=[i:((j-i)/number+1):(j+((j-i)/number))])translate([k,i])children();
-    for(k=[i:((j-i)/(number))/2:(j+((j-i)/(number+1.5)))])translate([i,k])children();
-}     
+
 //Render
 //Platform
 platform_top(); //1
@@ -86,4 +70,3 @@ platform_bottom(); //1
 //Frame
 frame_top();
 !frame_top_side();
-angle();
