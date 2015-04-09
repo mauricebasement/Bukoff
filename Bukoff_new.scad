@@ -2,7 +2,9 @@
 
 //Variables
 $fn=50;
-zMotorHoldX = 62;
+profileSize = 20;
+printerX = 200; //tbd
+printerY = 200; //tbd
 xRodDistance = 18;
 
 //Modules
