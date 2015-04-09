@@ -8,6 +8,7 @@ printerY = 200; //tbd
 profileRadius = 2.5;
 distanceFrame = 40;
 angleLength = 60;
+mdf = 5;
 
 //Modules
 //Platform
@@ -47,8 +48,10 @@ module frame_top_side() {
     difference() {
         square([profileSize*2+printerX,angleLength],center=true);
         tr_xy(x=printerX/2+profileSize/2,y=angleLength/2-profileSize/2)circle(r=profileRadius);
-    }    
+    }
+    for(i=[-0.99999,1])translate([0,i*(angleLength+mdf)/2])frame_top_side_joints()    ;
 }
+//
 //Helper Modules
 module tr_xy(x,y=0) {
 	if(y==0) {
@@ -61,7 +64,13 @@ module profile() {
     import("dxf/profile.dxf");
     circle(r=2.5);
 }
+module joints(size=5,length=30,o1=0,o2=-1) {
+    for(j=[-1,1])for(i=[0+o1:length/size/4+o2])translate([j*(i*size*2+size),0])square([size,mdf],center=true);
+}
 
+module frame_top_side_joints() {
+    joints(size=20,length=profileSize*2+printerX,o1=0);
+}
 //Render
 //Platform
 platform_top(); //1
