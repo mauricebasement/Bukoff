@@ -14,7 +14,7 @@ module platform1() {
 			translate([-70,i*50])tr_xy(x=12,y=9)circle(r=2);
 			translate([5,i*65])circle(r=1.5);
 		}
-		translate([70,0])	tr_xy(x=9,y=12)circle(r=2);
+		translate([70,0])	tr_xy(x=12,y=9)circle(r=2);
 		for(i=[-1,1])for(j=[1,-1])translate([i*212.2/2,j*60])circle(r=2);
 		tr_xy(x=50)circle(r=1.5);
 	}
@@ -342,7 +342,7 @@ motor_hold(y=40); //1
 //4. Frame
 angle(); //8 /4 ?
 y_axis_connector(); //1
-!y_axis_connector_side(); //2
+y_axis_connector_side(); //2
 y_axis_connector_bottom(); //1
 y_axis_connector_square(); //2
 y_axis_connector_middle_square(); //1
