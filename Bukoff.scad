@@ -63,54 +63,6 @@ module z_motor_hold_side() {
 	for(j=[-1,1])for(i=[25,45])translate([i-5,-5])square(5);
 }
 //3. Y Rod Hold
-module y_rod_hold(wide) {
-	difference() {
-		y_rod_hold_hull();
-		y_rod_hold_cut(wide=wide);
-	}
-}
-module y_rod_hold_cover() {
-	difference() {
-		circle(r=12);
-		x_holes(r=1.5,x=5);
-	}
-}
-module motor_hold(y,face) {
-	profile_square();
-    translate([0,25])square([y,10],center=true);
-	translate([0,50])difference() {
-		square([y,y],center=true);
-		motor(screw_i=true,hole=true,face=face);
-	}
-    holds();
-}
-module motor_hold_bottom() {
-	profile_square();
-	translate([0,40])difference() {
-		square(40,center=true);
-		motor(screw_i=true,hole=true);
-	}
-    holds();
-}
-
-module belt_hold() {
-    profile_square();
-    holds();
-    difference() {
-        translate([0,30])square([40,35],center=true);
-        translate([0,35])circle(r=7);
-    }
-}
-//Helper Modules
-module holds() {
-    for(i=[0,1])mirror([i,0,0])polygon(points=[[20,0],[60,20],[20,20]]);
-}
-module profile_square(y=40) {
-	difference() {
-		square([40,y],center=true);
-		tr_xy(x=10)circle(r=2.5);
-	}
-}
 //4. Frame
 module angle(profileSize=20,length=60,holeRadius=2.5,number=1) {
 i=profileSize/2;
@@ -333,12 +285,7 @@ z_motor_hold_top();  //2
 z_motor_hold_back(); //2
 z_motor_hold_side(); //4
 //3. Y Rod Hold
-y_rod_hold(wide=40); //1
-y_rod_hold(wide=50); //1
-y_rod_hold_cover(); //4
-belt_hold(); //2
-motor_hold(y=60,face=true); //1
-motor_hold(y=40); //1
+
 //4. Frame
 angle(); //8 /4 ?
 y_axis_connector(); //1
