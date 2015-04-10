@@ -110,6 +110,6 @@ platform_bottom(); //1
 
 //Frame
 frame_top1();
-!frame_top2();
+frame_top2();
 frame_top_side();
 frame_bottom();
