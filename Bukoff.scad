@@ -49,9 +49,11 @@ module rod_hold() {
     difference() {
         union() {
             square([40,40],center=true);
-            hull()for(i=[-1,1])translate([i*(rodDistance/2+rodRadius),20])circle(r=3*rodRadius);
+            hull()for(i=[-1,1])translate([i*(rodDistance/2+rodRadius),20])square(8*rodRadius,center=true);
             }
-            tr_xy(10)circle(r=profileRadius);
+        tr_xy(10)circle(r=profileRadius);
+        for(j=[-1,1])
+            for(i=[-1,1])translate([i*(rodDistance/2+rodRadius)+j*rodRadius*2,20])square([rodRadius*2,mdf],center=true);
         }
     }
         
