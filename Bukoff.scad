@@ -70,12 +70,18 @@ module rod_hold_generator(o0,o1,o2,x) {
             }
         }
         translate([0,o0])tr_xy(10)circle(r=profileRadius);
-        for(j=[-1,1])
-            for(i=[-1,1])translate([i*(rodDistance/2+rodRadius)+j*rodRadius*2,o1])square([rodRadius*2,mdf],center=true);
+        translate([0,o1])rod_holder_cut();
         translate([0,o2])children();
     }
 }        
-    
+module rod_holder_cut() {
+    for(j=[-1,1])
+        for(i=[-1,1])translate([i*(rodDistance/2+rodRadius)+j*rodRadius*2,0]){
+            square([rodRadius*2,mdf],center=true);
+            for(k=[-1,1])               
+                translate([0,k*(mdf+zipX/2)])square([zipY,zipX],center=true);
+        }
+}      
 //Helper Modules
 module tr_xy(x,y=0) {
 	if(y==0) {
@@ -94,6 +100,6 @@ platform_top(); //1
 platform_bottom(); //1
 
 //Y-Axis
-!rod_holder();
+rod_holder();
 rod_hold();
 !rod_hold(motor=true);
