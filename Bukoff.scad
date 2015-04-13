@@ -47,38 +47,34 @@ module bearing_cut(holes=false) {
 }
 
 //Y-Axis
-module rod_hold(o0=0,o1=30,o2=20) {
+module rod_holder() {
+    difference() {
+        square([6*rodRadius,mdf*0.95+3*rodRadius],center=true);
+        translate([0,rodRadius/2])square([2*rodRadius,2*rodRadius+mdf],center=true);
+        for(i=[-1,1])translate([i*2*rodRadius,-7.5])square([zipY,zipX],center=true);
+    }
+}
+
+module rod_hold(motor=false) {
+    if(motor==true)rod_hold_generator(0,30,20+nemaX/2,50)motor_cut();
+    if(motor==false)rod_hold_generator(0,30,20,20)circle(r=4);
+}
+
+module rod_hold_generator(o0,o1,o2,x) {
     difference() {
         union() {
-            translate([0,o0])square([40,40],center=true);
+            translate([0,o0])square(40,center=true);
             hull() {
                 for(i=[-1,1])translate([i*(rodDistance/2+rodRadius),o1])square([8*rodRadius,20],center=true);
-                translate([0,o2])square(20,center=true);
+                translate([0,o2])square(x,center=true);
             }
         }
         translate([0,o0])tr_xy(10)circle(r=profileRadius);
         for(j=[-1,1])
             for(i=[-1,1])translate([i*(rodDistance/2+rodRadius)+j*rodRadius*2,o1])square([rodRadius*2,mdf],center=true);
-        translate([0,o2])circle(r=4);
+        translate([0,o2])children();
     }
-}
-module rod_hold_motor(o0=0,o1=30,o2=20+nemaX/2) {
-    difference() {
-        union() {
-            translate([0,o0])square([40,40],center=true);
-            hull() {
-                for(i=[-1,1])translate([i*(rodDistance/2+rodRadius),o1])square([8*rodRadius,20],center=true);
-                translate([0,o2])square(50,center=true);
-            }
-        }
-        translate([0,o0])tr_xy(10)circle(r=profileRadius);
-        for(j=[-1,1])
-            for(i=[-1,1])translate([i*(rodDistance/2+rodRadius)+j*rodRadius*2,o1])square([rodRadius*2,mdf],center=true);
-        translate([0,o2])motor_cut();
-    }
-}
-     
-        
+}        
     
 //Helper Modules
 module tr_xy(x,y=0) {
@@ -98,4 +94,6 @@ platform_top(); //1
 platform_bottom(); //1
 
 //Y-Axis
-!rod_hold();
+!rod_holder();
+rod_hold();
+!rod_hold(motor=true);
