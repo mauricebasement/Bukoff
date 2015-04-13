@@ -13,6 +13,8 @@ lbrSub = 3; //how much to subtract from linear beraing in carriage hole
 lbrOff = 1;
 rodDistance = 140;
 rodRadius = 4;
+nemaX = 42;
+nemaY = nemaX;
 
 //Modules
 //Platform
@@ -45,18 +47,37 @@ module bearing_cut(holes=false) {
 }
 
 //Y-Axis
-module rod_hold() {
+module rod_hold(o0=0,o1=30,o2=20) {
     difference() {
         union() {
-            square([40,40],center=true);
-            hull()for(i=[-1,1])translate([i*(rodDistance/2+rodRadius),20])square(8*rodRadius,center=true);
+            translate([0,o0])square([40,40],center=true);
+            hull() {
+                for(i=[-1,1])translate([i*(rodDistance/2+rodRadius),o1])square([8*rodRadius,20],center=true);
+                translate([0,o2])square(20,center=true);
             }
-        tr_xy(10)circle(r=profileRadius);
-        for(j=[-1,1])
-            for(i=[-1,1])translate([i*(rodDistance/2+rodRadius)+j*rodRadius*2,20])square([rodRadius*2,mdf],center=true);
         }
+        translate([0,o0])tr_xy(10)circle(r=profileRadius);
+        for(j=[-1,1])
+            for(i=[-1,1])translate([i*(rodDistance/2+rodRadius)+j*rodRadius*2,o1])square([rodRadius*2,mdf],center=true);
+        translate([0,o2])circle(r=4);
     }
-        
+}
+module rod_hold_motor(o0=0,o1=30,o2=20+nemaX/2) {
+    difference() {
+        union() {
+            translate([0,o0])square([40,40],center=true);
+            hull() {
+                for(i=[-1,1])translate([i*(rodDistance/2+rodRadius),o1])square([8*rodRadius,20],center=true);
+                translate([0,o2])square(50,center=true);
+            }
+        }
+        translate([0,o0])tr_xy(10)circle(r=profileRadius);
+        for(j=[-1,1])
+            for(i=[-1,1])translate([i*(rodDistance/2+rodRadius)+j*rodRadius*2,o1])square([rodRadius*2,mdf],center=true);
+        translate([0,o2])motor_cut();
+    }
+}
+     
         
     
 //Helper Modules
