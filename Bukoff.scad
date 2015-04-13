@@ -94,6 +94,7 @@ module motor_cut() {
     tr_xy(31/2)circle(r=1.5);
     circle(r=11.1);
 }
+
 //Render
 //Platform
 platform_top(); //1
@@ -101,5 +102,5 @@ platform_bottom(); //1
 
 //Y-Axis
 rod_holder();
-!rod_hold();
+rod_hold();
 rod_hold(motor=true);
