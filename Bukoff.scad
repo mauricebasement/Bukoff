@@ -12,6 +12,7 @@ lbrY = 24;
 lbrSub = 3; //how much to subtract from linear beraing in carriage hole
 lbrOff = 1;
 rodDistance = 140;
+rodRadius = 4;
 
 //Modules
 //Platform
@@ -42,6 +43,19 @@ module bearing_cut(holes=false) {
         tr_xy(x=(lbrX-lbrSub)/2+zipX+lbrOff,y=lbrY/2-zipY)square([zipX,zipY],center=true);
     }
 }
+
+//Y-Axis
+module rod_hold() {
+    difference() {
+        union() {
+            square([40,40],center=true);
+            hull()for(i=[-1,1])translate([i*(rodDistance/2+rodRadius),20])circle(r=3*rodRadius);
+            }
+            tr_xy(10)circle(r=profileRadius);
+        }
+    }
+        
+        
     
 //Helper Modules
 module tr_xy(x,y=0) {
@@ -51,7 +65,14 @@ module tr_xy(x,y=0) {
 		for(i=[-1,1])for(j=[-1,1])translate([x*i,y*j])children();
 	}
 }
+module motor_cut() {
+    tr_xy(31/2)circle(r=1.5);
+    circle(r=11.1);
+}
 //Render
 //Platform
 platform_top(); //1
-!platform_bottom(); //1
+platform_bottom(); //1
+
+//Y-Axis
+!rod_hold();
