@@ -57,7 +57,7 @@ module rod_holder() {
 
 module rod_hold(motor=false) {
     if(motor==true)rod_hold_generator(0,30,20+nemaX/2,50)motor_cut();
-    if(motor==false)rod_hold_generator(0,30,20,20)circle(r=4);
+    if(motor==false)rod_hold_generator(0,20,20,20)circle(r=4);
 }
 
 module rod_hold_generator(o0,o1,o2,x) {
@@ -101,5 +101,5 @@ platform_bottom(); //1
 
 //Y-Axis
 rod_holder();
-rod_hold();
-!rod_hold(motor=true);
+!rod_hold();
+rod_hold(motor=true);
